@@ -13,14 +13,15 @@ class YapController extends Controller
 
     public function store(){
 
-        request()->validate([
+        $validated = request()->validate([
             'yap' => 'required|min:5|max:240'
         ]);
 
-        $yap = new Yap([
-            'yap' => request()->get('yap', ''),
-        ]);
-        $yap->save();
+        Yap::create($validated);
+        // $yap = new Yap([
+        //     'yap' => request()->get('yap', ''),
+        // ]);
+        // $yap->save();
 
         return redirect()->route('dashboard')->with('success', 'Yapped Successfully!');
     }
@@ -32,11 +33,13 @@ class YapController extends Controller
     }
 
     public function update(Yap $yap){
-        request()->validate([
+        $validated = request()->validate([
             'yap' => 'required|min:5|max:240'
         ]);
-        $yap->yap = request()->get('yap', '');
-        $yap->save();
+
+        // $yap->yap = request()->get('yap', '');
+        // $yap->save();
+        $yap->update($validated);
 
         return redirect()->route('yaps.show', $yap->id)->with('success', 'Yap updated Successfully!');
     }

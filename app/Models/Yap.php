@@ -13,4 +13,8 @@ class Yap extends Model
         'yap',
         'like',
     ];
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 }

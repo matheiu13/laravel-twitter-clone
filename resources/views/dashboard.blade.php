@@ -10,7 +10,6 @@
                 @include('shared.success-message')
                 @include('shared.submit-yap')
 
-                <hr>
                 @foreach ($yaps as $yap)
                     <div class="mt-3">
                         @include('shared.yap-card')

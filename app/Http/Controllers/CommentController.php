@@ -12,6 +12,7 @@ class CommentController extends Controller
         // dump(request()->all());
         $comment = new Comment();
         $comment->yap_id = $yap->id;
+        $comment->user_id = auth()->id();
         $comment->yap = request()->get('reply');
         $comment->save();
         return redirect()->route('yaps.show', $yap->id)->with('success', "Replied successfully");

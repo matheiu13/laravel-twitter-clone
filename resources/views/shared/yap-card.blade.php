@@ -3,21 +3,24 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                    src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=Mario" alt="Mario Avatar">
+                    src="https://api.dicebear.com/6.x/fun-emoji/svg?seed={{ $yap->user->name }}"
+                    alt="{{ $yap->user->name }} avatar">
                 <div>
-                    <h5 class="card-title mb-0"><a href="#"> Mario
+                    <h5 class="card-title mb-0"><a href="#"> {{ $yap->user->name }}
                         </a></h5>
                 </div>
             </div>
             <div>
-                <form action="{{ route('yaps.destroy', $yap->id) }}" method="POST">
-                    @csrf
-                    @method('delete')
-                    <button class="btn btn-danger btn-sm">X</button>
-                </form>
-                <a href="{{ route('yaps.edit', $yap->id) }}">edit</a>
-                <a href="{{ route('yaps.show', $yap->id) }}">view</a>
+                @if (auth()->id() == $yap->user_id)
+                    <form action="{{ route('yaps.destroy', $yap->id) }}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger btn-sm">X</button>
+                    </form>
+                    <a href="{{ route('yaps.edit', $yap->id) }}">edit</a>
+                @endif
 
+                <a href="{{ route('yaps.show', $yap->id) }}">view</a>
             </div>
         </div>
     </div>

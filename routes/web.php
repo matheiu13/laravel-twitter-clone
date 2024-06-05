@@ -19,26 +19,31 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/yaps/{yap}', [YapController::class, 'show'])->name('yaps.show');
+Route::group(['prefix' => 'yaps/', 'as' => 'yaps.',], function () {
 
-Route::post('/yaps', [YapController::class, 'store'])->name('yaps.create');
+    // Route::get('/{yap}', [YapController::class, 'show'])->name('show');
 
-Route::get('/yaps/{yap}/edit', [YapController::class, 'edit'])->name('yaps.edit');
+    Route::group(['middleware' => ['auth']], function () {
+        // Route::post('', [YapController::class, 'store'])->name('store');
+        // Route::get('/{yap}/edit', [YapController::class, 'edit'])->name('edit');
+        // Route::put('/{yap}/edit', [YapController::class, 'update'])->name('update');
+        // Route::delete('/{yap}', [YapController::class, 'destroy'])->name('destroy');
 
-Route::put('/yaps/{yap}/edit', [YapController::class, 'update'])->name('yaps.update');
+        // Route::post('/{yap}/comments', [CommentController::class, 'store'])->name('comments.store');
+    });
+});
 
-Route::delete('/yaps/{yap}', [YapController::class, 'destroy'])->name('yaps.destroy');
+Route::resource('yaps', YapController::class)->except(['index', 'create', 'show'])->middleware('auth');
+Route::resource('yaps', YapController::class)->only(['show']);
+Route::resource('yaps.comments', CommentController::class)->only(['store'])->middleware('auth');
+// ->except(['index', 'create', 'show'])->middleware('auth')
 
-Route::post('/yaps/{yap}/comments', [CommentController::class, 'store'])->name('yaps.comments.store');
+Route::get('/profile', [ProfileController::class, 'index']);
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-
 Route::post('/register', [AuthController::class, 'store']);
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-
 Route::post('/login', [AuthController::class, 'authenticate']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/profile', [ProfileController::class, 'index']);

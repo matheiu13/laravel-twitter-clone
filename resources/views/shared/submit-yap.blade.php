@@ -4,7 +4,7 @@
         <form action="{{ route('yaps.store') }}" method="post">
             @csrf
             <div class="mb-3">
-                <textarea name="yap" class="form-control" id="idea" rows="3"></textarea>
+                <textarea name="yap" class="form-control" id="yap" rows="3"></textarea>
                 @error('yap')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror

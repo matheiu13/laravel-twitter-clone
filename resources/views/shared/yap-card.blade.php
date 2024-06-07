@@ -3,10 +3,10 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                    src="https://api.dicebear.com/6.x/fun-emoji/svg?seed={{ $yap->user->name }}"
+                    src="{{ $yap->user->getImageURL() }}"
                     alt="{{ $yap->user->name }} avatar">
                 <div>
-                    <h5 class="card-title mb-0"><a href="#"> {{ $yap->user->name }}
+                    <h5 class="card-title mb-0"><a href="{{ route('users.show', $yap->user->id)}}"> {{ $yap->user->name }}
                         </a></h5>
                 </div>
             </div>

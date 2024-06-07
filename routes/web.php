@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\YapController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,26 +20,32 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['prefix' => 'yaps/', 'as' => 'yaps.',], function () {
+// Route::group(['prefix' => 'yaps/', 'as' => 'yaps.',], function () {
 
-    // Route::get('/{yap}', [YapController::class, 'show'])->name('show');
+//     // Route::get('/{yap}', [YapController::class, 'show'])->name('show');
 
-    Route::group(['middleware' => ['auth']], function () {
-        // Route::post('', [YapController::class, 'store'])->name('store');
-        // Route::get('/{yap}/edit', [YapController::class, 'edit'])->name('edit');
-        // Route::put('/{yap}/edit', [YapController::class, 'update'])->name('update');
-        // Route::delete('/{yap}', [YapController::class, 'destroy'])->name('destroy');
+//     Route::group(['middleware' => ['auth']], function () {
+//         // Route::post('', [YapController::class, 'store'])->name('store');
+//         // Route::get('/{yap}/edit', [YapController::class, 'edit'])->name('edit');
+//         // Route::put('/{yap}/edit', [YapController::class, 'update'])->name('update');
+//         // Route::delete('/{yap}', [YapController::class, 'destroy'])->name('destroy');
 
-        // Route::post('/{yap}/comments', [CommentController::class, 'store'])->name('comments.store');
-    });
-});
+//         // Route::post('/{yap}/comments', [CommentController::class, 'store'])->name('comments.store');
+//     });
+// });
 
 Route::resource('yaps', YapController::class)->except(['index', 'create', 'show'])->middleware('auth');
 Route::resource('yaps', YapController::class)->only(['show']);
 Route::resource('yaps.comments', CommentController::class)->only(['store'])->middleware('auth');
 // ->except(['index', 'create', 'show'])->middleware('auth')
 
-Route::get('/profile', [ProfileController::class, 'index']);
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update'])->middleware('auth');
+
+Route::get('profile', [UserController::class, 'profile'])->middleware('auth')->name('profile');
+
+
+
+// Route::get('/profile', [ProfileController::class, 'index']);
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'store']);

@@ -18,6 +18,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'bio',
+        'image',
         'email',
         'password',
     ];
@@ -43,5 +45,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function yaps(){
+        return $this->hasMany(Yap::class)->orderBy("created_at", "DESC");
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getImageURL(){
+        if($this->image){
+            return url('storage/' . $this->image);
+        } else {
+            return "https://api.dicebear.com/6.x/fun-emoji/svg?seed={$this->name}";
+        }
     }
 }
